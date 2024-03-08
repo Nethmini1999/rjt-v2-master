@@ -74,7 +74,7 @@ class AdminResultController extends Controller
                         DB::raw('CONCAT(initials," ",name_marking) AS Name'),
                         // DB::raw('CONCAT(course_subjects.code," ",course_subjects.name) AS Subject'),
                         'student_exam_results.marks AS Marks',
-                        'student_exam_results.result as Result',
+                        'student_exam_results.result as Result'
                     );
 
             $ac = clone $a;

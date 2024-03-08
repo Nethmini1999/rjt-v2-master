@@ -150,7 +150,7 @@ class AdminTranscriptController extends Controller
                                 'student_personal_details.index_no',
                                 'student_academic_details.s'.$semester.'_gpa as gpa',
                                 'student_academic_details.degree_effective_date',
-                                'master_degree_programs.name as program',
+                                'master_degree_programs.name as program'
                         )->get();
             foreach($students as $std){   
                 $data[$std->id]['id']=$std->id;                
@@ -255,7 +255,7 @@ class AdminTranscriptController extends Controller
                         'student_academic_details.class',
                         'student_academic_details.degree_effective_date',
                         DB::raw('IFNULL(master_course_specialization_categories.name,"") as specialization'),
-                        'master_degree_programs.name as program',
+                        'master_degree_programs.name as program'
                     )->get();
 
         if($students){
@@ -389,7 +389,7 @@ class AdminTranscriptController extends Controller
                 'student_academic_details.class',
                 'student_academic_details.degree_effective_date',
                 DB::raw('IFNULL(master_course_specialization_categories.name,"") as specialization'),
-                'master_degree_programs.special_name as program',
+                'master_degree_programs.special_name as program'
             )->get();
 
         if($students){

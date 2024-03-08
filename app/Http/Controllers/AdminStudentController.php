@@ -148,7 +148,7 @@ class AdminStudentController extends Controller{
                                 's8_gpa AS S8GPA',
                                 'final_gpa AS FinalGPA',
                                 'is_batch_miss AS BatchMiss',
-                                'current_study_year AS StudyYear',
+                                'current_study_year AS StudyYear'
                             );
 
 
@@ -228,7 +228,7 @@ class AdminStudentController extends Controller{
         }
 
         $payments = YearRegistration::where('student_id','=',$student->id)->orderBy('academic_year')
-                        ->select('academic_year', 'registered_year', 'registration_date', 'need_hostel', 'total_paid_amount',)
+                        ->select('academic_year', 'registered_year', 'registration_date', 'need_hostel', 'total_paid_amount')
                         ->get()
                         ->toArray();
 
@@ -415,7 +415,12 @@ class AdminStudentController extends Controller{
         $curRegulation = Regulation::where('is_current','=','1')->select('id')->first();
 
         DB::table('temp_student_upload_rusl_file')->truncate();
-        return view('admin.students.import',['batches'=>$batches,'regulations'=>$regulations,'curRegulation'=>$curRegulation->id]);
+        return view('admin.students.import', [
+            'batches' => $batches,
+            'regulations' => $regulations,
+            'curRegulation' => $curRegulation ? $curRegulation->id : null,
+        ]);
+        
     }
 
     

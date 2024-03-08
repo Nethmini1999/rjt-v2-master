@@ -156,7 +156,7 @@ class SettingsController extends Controller
             $data = [];
             $col = [2=>'Code',3=>'ALYear',4=>'AccYear',5=>'IsCurrent'];
 
-            $a = Batch::select('id as ID', 'code as Code', 'al_year as ALYear', 'academic_year as AccYear','is_current as IsCurrent', 'program_id as ProgramId',  );
+            $a = Batch::select('id as ID', 'code as Code', 'al_year as ALYear', 'academic_year as AccYear','is_current as IsCurrent', 'program_id as ProgramId'  );
            
             $ac = clone $a;
             $Count = $ac->count();

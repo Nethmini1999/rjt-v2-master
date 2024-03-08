@@ -15,7 +15,6 @@ Import Results
 @endsection
 
 @section('content')
-{!!die()!!}
 <div class="card mb-1">
     <div class="card-body">
         <h4 class="text-secondary mb-3 mt-3"><i data-feather="file-text" class="mr-0 pb-1"></i> Import Student Exam Results</h4>

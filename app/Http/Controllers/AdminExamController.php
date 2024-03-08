@@ -227,19 +227,24 @@ class AdminExamController extends Controller
             $students = $q->get();
             if(empty($students) || $students->isEmpty()) return ;
 
+            $stdIds = [];
             foreach($students as $std){
                 $data[$std->id] = ['name'=>$std->name,'full_name'=>$std->full_name,'regno'=>$std->registration_no,'indexno'=>$std->index_no,'idno'=>$std->id_no,'program'=>$std->program,'subjects'=>[]];
+                $stdIds[] = $std->id;
             }
 
-            $subjects = StudentExam::join('student_exam_subjects','student_exam.id','=','student_exam_subjects.student_exam_id')
+            $s = StudentExam::join('student_exam_subjects','student_exam.id','=','student_exam_subjects.student_exam_id')
                                 ->where('student_exam.year','=',$this->year)
                                 ->whereIn('student_exam.semester',$activeSemesters)
                                 ->whereIn('student_exam.student_id',$appliedStudents)
                                 ->where('student_exam_subjects.registered','=','1')
                                 ->where('student_exam_subjects.is_repeat','=','1')
                                 ->where('student_exam_subjects.status','=','1')
-                                ->select('student_exam.student_id','student_exam_subjects.subject_id as id','student_exam_subjects.status')
-                                ->get();
+                                ->select('student_exam.student_id','student_exam_subjects.subject_id as id','student_exam_subjects.status');
+
+            if(!empty($stdIds)) $s->whereIn('student_exam.student_id', $stdIds);
+            $subjects = $s->get();
+
 
             foreach($subjects as $subject){
                 $data[$subject->student_id]['subjects'][$subject->id] = $subject->status;
@@ -295,20 +300,29 @@ class AdminExamController extends Controller
                             );
             if(!empty($search))$q->where('student_personal_details.registration_no','like',$search.'%')->orWhere('student_personal_details.id_no','like',$search.'%');
             $students = $q->get();
+
             if(empty($students) || $students->isEmpty()) return ;
 
+            $stdIds = [];
             foreach($students as $std){
                 $data[$std->id] = ['name'=>$std->name,'full_name'=>$std->full_name,'regno'=>$std->registration_no,'indexno'=>$std->index_no,'idno'=>$std->id_no,'program'=>$std->program,'subjects'=>[]];
+                $stdIds[] = $std->id;
             }
 
-            $subjects = StudentExam::join('student_exam_subjects','student_exam.id','=','student_exam_subjects.student_exam_id')
+
+
+            $s = StudentExam::join('student_exam_subjects','student_exam.id','=','student_exam_subjects.student_exam_id')
                                 ->where('student_exam.year','=',$this->year)
                                 ->where('student_exam.semester','=',$request->semester)
                                 ->where('student_exam_subjects.registered','=','1')
                                 ->where('student_exam_subjects.is_repeat','=','0')
                                 ->where('student_exam_subjects.status','=','1')
                                 ->select('student_exam.student_id','student_exam_subjects.subject_id as id','student_exam_subjects.status')
-                                ->get();
+                                ;
+
+            if(!empty($stdIds)) $s->whereIn('student_exam.student_id', $stdIds);
+
+            $subjects = $s->get();
 
             foreach($subjects as $subject){
                 $data[$subject->student_id]['subjects'][$subject->id] = $subject->status;

@@ -63,7 +63,7 @@ class AdminRegistrationController extends Controller
                         DB::raw('CONCAT(initials," ",name_marking) AS Name'),
                         'master_batch.code AS Batch',
                         'student_yearly_registration.registered_year as StudyYear',
-                        'student_yearly_registration.academic_year as AcademicYear',
+                        'student_yearly_registration.academic_year as AcademicYear'
                     );
 
             $ac = clone $a;
